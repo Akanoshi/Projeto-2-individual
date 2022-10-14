@@ -1,103 +1,99 @@
-console.log(cesar('c', "mensagem codificada", 15));
+//cifra de cesar
+window.onload = () => { 
+  document.getElementById('cypher').disabled = true;
+  document.getElementById('decypher').disabled = true;
 
-//btchpvtb rdsxuxrpsp
-//mensagem codificada
-//15
+  document.getElementById('message-box').addEventListener('input', () => {
+    enableButtons(); 
+    addTextAreaRows();
+    clearResults();
+  });
+  document.getElementById('cypher').addEventListener('click', cypher);
+  document.getElementById('decypher').addEventListener('click', decypher);
+};
 
-function iniciar(){
-  var dados = pegarDados();
-  var resposta = cesar(dados[0], dados[1], dados[2]);
-  escrever(resposta);
-}
-
-function escrever(resposta){
-  var campo = document.getElementById("resposta");
-  campo.innerHTML = "Saída:  " + resposta ;
-}
-
-function pegarDados(){
-  var dados = {};
-
-  var opcao = document.getElementById("opcao");
-  var operacao = opcao.options[opcao.selectedIndex].value;
-  dados[0] = operacao;
-
-  var mensagem = document.getElementById("mensagem").value;
-  dados[1] = mensagem;
-
-  var casas = document.getElementById("casas").value;
-  console.log(casas);
-  dados[2] = casas;
-
-  return dados;
-}
-
-function cesar(opcao, mensagem, casas){
-  if(opcao == 'd'){
-    return decifrar(mensagem, casas)
-  }else{
-    return cifrar(mensagem, casas)
+const enableButtons = () => {
+  if (getMessage().trim().length !== 0) {
+    document.getElementById('cypher').disabled = false;
+    document.getElementById('decypher').disabled = false;
+  } else {
+    document.getElementById('cypher').disabled = true;
+    document.getElementById('decypher').disabled = true;
   }
-}
+};
 
-function decifrar(mensagem, casas){
-  var resposta = "";
-  const sumario = construirSumario('d', casas)
+const addTextAreaRows = () => {
+  const txtArea = document.getElementById('message-box');
+  txtArea.style.height = '8vh';
+  txtArea.style.height = txtArea.scrollHeight + 'px';
+};
 
-  for(let i=0; i < mensagem.length; i++ ){
-    if(sumario[mensagem[i]] == undefined){
-      resposta += mensagem[i]
-    }else{
-      resposta += sumario[mensagem[i]]
-    }
+const clearResults = () => {
+  if (document.getElementById('p-group')) 
+    document.getElementById('results').removeChild(document.getElementById('p-group'));
+};
+
+const cypher = () => {
+  const cypheredCharCodes = cypherCharcodes(getCharcodesFromMessage());
+  const resultMessage = transformIntoLetters(cypheredCharCodes);
+  const method = 'criptografada';
+  showResultOnPage(resultMessage, method);
+  clearTextArea();
+};
+
+const decypher = () => {
+  const decypheredCharCodes = decypherCharcodes(getCharcodesFromMessage());
+  const resultMessage = transformIntoLetters(decypheredCharCodes);
+  const method = 'descriptografada';
+  showResultOnPage(resultMessage, method);
+  clearTextArea();
+};
+
+const getMessage = () => document.getElementById('message-box').value;
+const getCharcodesFromMessage = () => getMessage().split('').map(val => val.charCodeAt());
+
+const cypherCharcodes = charcodesArray => charcodesArray.map((charCode, i) => {
+  if (charCode > 47 && charCode < 58) {
+    charCode = (charCode - 48 + 33) % 10 + 48;
+  } else if (charCode > 64 && charCode < 91) {
+    charCode = (charCode - 65 + 33) % 26 + 65;
+  } if (charCode > 96 && charCode < 192) {
+    charCode = (charCode - 97 + 33) % 26 + 97;
+  } else if (charCode > 191 && charCode < 222) {
+    charCode = (charCode - 192 + 33) % 30 + 192;
+  } else if (charCode > 221 && charCode <= 255) {
+    charCode = (charCode - 222 + 33) % 34 + 222;
+  } 
+  return charCode;
+});
+
+const decypherCharcodes = charcodesArray => charcodesArray.map((charCode, i) => {
+  if (charCode > 47 && charCode < 58) {
+    charCode = (charCode - 57 - 33) % 10 + 57;
+  } else if (charCode > 64 && charCode < 91) {
+    charCode = (charCode - 90 - 33) % 26 + 90;
+  } else if (charCode > 96 && charCode < 192) {
+    charCode = (charCode - 122 - 33) % 26 + 122;
+  } else if (charCode > 191 && charCode < 222) {
+    charCode = (charCode - 221 - 33) % 30 + 221;
+  } else if (charCode > 221 && charCode <= 255) {
+    charCode = (charCode - 255 - 33) % 34 + 255;
   }
+  return charCode;
+});
 
-  return resposta
-}
+const transformIntoLetters = charcodesArray => String.fromCharCode.apply(this, charcodesArray);
 
-function cifrar(mensagem, casas){
-  var resposta = "";
-  const sumario = construirSumario('c', casas)
+const showResultOnPage = (resultMessage, method) => {
+  return document.getElementById('results').innerHTML = `
+  <div id="p-group">
+    <p class="result-fixed-message w-100">Esta é a sua mensagem ${method}:</p>
+    <p class="result-text w-100">${resultMessage}</p>
+  </div>`;
+};
 
-  for(let i=0; i < mensagem.length; i++ ){
-    if(sumario[mensagem[i]] == undefined){
-      resposta += mensagem[i]
-    }else{
-      resposta += sumario[mensagem[i]]
-    }
-  }
-
-  return resposta
-
-}
-
-function construirSumario(opcao, casas){
-  if (casas>26){
-    casas = casas % 26;
-  }
-
-  const alfabeto = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-  var sumario = {
-    a: '', b: '', c: '',
-    d: '', e: '', f: '',
-    g: '', h: '', i: '',
-    j: '', k: '', l: '',
-    m: '', n: '', o: '',
-    p: '', q: '', r: '',
-    s: '', t: '', u: '',
-    v: '', w: '', x: '',
-    y: '', z: ''
-  }
-
-  if(opcao == 'c'){
-    for(let i=0;i<(alfabeto.length)/2;i++){
-      sumario[alfabeto[i]] = alfabeto[i+casas]
-    }
-  }else{
-    for(let i=26;i<alfabeto.length;i++){
-      sumario[alfabeto[i]] = alfabeto[i-casas]
-    }
-  }
-  return sumario
-
-}
+const clearTextArea = () => { 
+  document.getElementById('message-box').value = '';
+  enableButtons();
+  addTextAreaRows();
+};
