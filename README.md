@@ -1,17 +1,32 @@
-"Cifra de César - Feita com Javascript
-O presente repositório contém uma aplicação e a documentação necessária para o entendimento do funcionamento de uma cifra de césar
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Cifra</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
 
-Features.
-
-Encriptar um texto
-
-Decriptar o texto
-
-
-Tecnologias.
-
-HTML
-
-CSS
-
-Javascript"
+  <body>
+    <script src="javascript.js"></script>  
+  
+    <body>
+      <body class="roboto">
+        <main class="d-flex j-center wrap">
+          <h1 class="w-100 title-font">Criptografia / Descriptografia por Cifra de César</h1>
+          <p class="w-100">Insira a mensagem na caixa abaixo e clique na opção desejada:</p>
+          <div class="d-flex j-center w-100" id="message-container">
+            <textarea type="text" id="message-box" class="message-box w-40 roboto" placeholder="Escreva sua mensagem aqui"></textarea>
+          </div>
+          <div class="w-100">
+            <button class="btn-style roboto" id="cypher">Codificar</button>
+            <button class="btn-style roboto" id="decypher">Decodificar</button>
+          </div>
+          <input type="number" id="casas" name="casas">
+          <div class="result-container d-flex wrap j-center w-40" id="results"></div>
+        </main>
+    
+        
+      
+      </body>
+    </html>
