@@ -8,6 +8,7 @@ Decriptar o texto
 
 
 Tecnologias- 
+
 HTML 
 CSS 
 Javascript
