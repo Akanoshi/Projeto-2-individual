@@ -3,12 +3,12 @@ O presente repositório contém uma aplicação e a documentação necessária p
 
 Features- 
 
-Encriptar um texto 
+Encriptar um texto, 
 Decriptar o texto 
 
 
 Tecnologias- 
 
-HTML 
-CSS 
+HTML ,
+CSS ,
 Javascript
